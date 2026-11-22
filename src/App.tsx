@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { OfferingsSection } from './components/OfferingsSection';
+import { PartnersSection } from './components/PartnersSection';
 import { ProofAndTeamSection } from './components/ProofAndTeamSection';
 import { BlogSection } from './components/BlogSection';
 import { ContactSection, type ContactPreset } from './components/ContactSection';
@@ -28,7 +29,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+    <div className="min-h-screen flex flex-col bg-[#F6F4EC] text-[#0E2427]">
       <Navbar
         onNavigateContact={(subject = 'New Project Discovery') =>
           navigateToContact('Custom IT Services', subject)
@@ -45,6 +46,12 @@ export default function App() {
         <OfferingsSection
           onInquireOffering={(inquiryType, subject) =>
             navigateToContact(inquiryType, subject)
+          }
+        />
+
+        <PartnersSection
+          onInquirePartner={(partnerName) =>
+            navigateToContact('General Partnership', `Planned Partnership / Quote: ${partnerName}`)
           }
         />
 

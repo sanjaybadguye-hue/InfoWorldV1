@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { CheckCircle2, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Mail, MapPin, Phone } from 'lucide-react';
 
 export interface ContactPreset {
   inquiryType: string;
@@ -14,6 +14,7 @@ interface ContactSectionProps {
 const INQUIRY_TYPES = [
   'IT Product Demo',
   'Custom IT Services',
+  'IT Infrastructure & Hardware',
   'Experienced Roles',
   'Freshers 2026 Cohort',
   'General Partnership',
@@ -76,10 +77,11 @@ export function ContactSection({ preset }: ContactSectionProps) {
     subject: string;
     message: string;
   }): string => {
-    const mailSubject = `[InfoWorldtech.co.in] ${payload.inquiryType}${
+    const mailSubject = `[infoworldtech.co.in] ${payload.inquiryType}${
       payload.subject ? ` — ${payload.subject}` : ''
     }`;
     const mailBody = [
+      'Attention: Sanjay Badguye',
       `Name: ${payload.name}`,
       `Email: ${payload.email}`,
       payload.phone ? `Phone: ${payload.phone}` : '',
@@ -90,7 +92,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
     ]
       .filter(Boolean)
       .join('\n');
-    return `mailto:hello@infoworldtech.co.in?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+    return `mailto:sales@infoworldtech.co.in?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -119,7 +121,6 @@ export function ContactSection({ preset }: ContactSectionProps) {
 
       const contentType = response.headers.get('content-type') ?? '';
       if (!contentType.includes('application/json') || response.status === 404 || response.status === 405) {
-        // Static hosting (e.g. GitHub Pages): record inquiry locally and provide instant mailto confirmation
         const staticRefId = `IWT-2026-${Math.floor(100000 + Math.random() * 900000)}`;
         try {
           const existing = JSON.parse(localStorage.getItem('iwt_inquiries') ?? '[]');
@@ -134,7 +135,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
           referenceId: staticRefId,
           mailtoHref,
           serverMessage:
-            'Your inquiry has been prepared and logged. Send via your email client below or reach us at hello@infoworldtech.co.in.',
+            'Your inquiry has been prepared and logged for Sanjay Badguye. Send via your email client below or reach us at sales@infoworldtech.co.in.',
         });
 
         setName('');
@@ -182,82 +183,102 @@ export function ContactSection({ preset }: ContactSectionProps) {
         referenceId: staticRefId,
         mailtoHref,
         serverMessage:
-          'Your inquiry has been prepared for the Nagpur team. Click below to dispatch it directly via email.',
+          'Your inquiry has been prepared for Sanjay Badguye. Click below to dispatch it directly via email.',
       });
     }
   };
 
   return (
-    <section id="contact" className="py-16 lg:py-20 bg-slate-50 border-b border-slate-200">
+    <section id="contact" className="py-16 lg:py-24 bg-[#0E2427] text-white border-b border-white/15">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-          {/* Left Office & Direct Info Column */}
+          {/* Left Office & Direct Contact Column matching PDF Page 5 & 6 */}
           <div className="lg:col-span-5">
-            <p className="text-sm font-medium text-blue-700 mb-2">
-              Contact InfoWorldtech.co.in
-            </p>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 text-balance">
-              Start a conversation with our Nagpur engineering team.
+            <div className="flex items-center gap-3 text-xs font-mono tracking-[0.18em] uppercase text-[#DFA061] mb-4">
+              <span className="w-6 h-px bg-[#DFA061]" aria-hidden="true" />
+              <span>A Good Place To Start</span>
+            </div>
+
+            <h2 className="font-serif font-medium text-3xl sm:text-5xl tracking-tight text-white leading-[1.08] text-balance">
+              Let’s find your{' '}
+              <span className="italic font-normal text-[#DFA061]">next right step.</span>
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed">
-              Whether you need a live demo of PulseERP Core, want a hybrid pod of experienced architects and mentored freshers, or are applying for our 2026 roles, write to us directly.
+
+            <p className="mt-5 text-base text-slate-300 leading-relaxed">
+              Tell us what you’re trying to solve. Our Nagpur team can help you think through the infrastructure, business software, or engineering support that makes sense.
             </p>
 
-            <div className="mt-8 space-y-5 pt-8 border-t border-slate-200">
-              <div className="flex items-start gap-3.5">
-                <MapPin className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" aria-hidden="true" />
+            <div className="mt-8 space-y-5 pt-8 border-t border-white/15">
+              <div className="flex items-start gap-4">
+                <span className="w-10 h-10 inline-flex items-center justify-center border border-white/20 rounded-sm text-[#DFA061] shrink-0">
+                  <Mail className="w-4 h-4" aria-hidden="true" />
+                </span>
                 <div className="text-sm">
-                  <p className="font-semibold text-slate-900">Nagpur Headquarters (Est. 2026)</p>
-                  <p className="text-slate-600 mt-0.5">
-                    3rd Floor, Technology Tower B, IT Park Road, Subhash Nagar, Nagpur, Maharashtra 440022
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3.5">
-                <Mail className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" aria-hidden="true" />
-                <div className="text-sm">
-                  <p className="font-semibold text-slate-900">Email &amp; Careers Desk</p>
+                  <p className="font-semibold text-white">Attention: Sanjay Badguye</p>
                   <a
-                    href="mailto:hello@infoworldtech.co.in"
-                    className="text-blue-700 hover:underline mt-0.5 inline-block"
+                    href="mailto:sales@infoworldtech.co.in"
+                    className="text-[#DFA061] hover:underline mt-0.5 inline-block"
                   >
-                    hello@infoworldtech.co.in
+                    sales@infoworldtech.co.in
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3.5">
-                <Phone className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" aria-hidden="true" />
+              <div className="flex items-start gap-4">
+                <span className="w-10 h-10 inline-flex items-center justify-center border border-white/20 rounded-sm text-[#DFA061] shrink-0">
+                  <Phone className="w-4 h-4" aria-hidden="true" />
+                </span>
                 <div className="text-sm">
-                  <p className="font-semibold text-slate-900">Office Hours (Mon–Sat, IST)</p>
-                  <p className="text-slate-600 tabular-nums mt-0.5">
+                  <p className="font-semibold text-white">Direct Office Line (Mon–Sat, IST)</p>
+                  <p className="text-slate-300 tabular-nums mt-0.5">
                     +91 712 248 9104 · 09:30 AM – 06:30 PM IST
                   </p>
                 </div>
               </div>
+
+              <div className="flex items-start gap-4">
+                <span className="w-10 h-10 inline-flex items-center justify-center border border-white/20 rounded-sm text-[#DFA061] shrink-0">
+                  <MapPin className="w-4 h-4" aria-hidden="true" />
+                </span>
+                <div className="text-sm">
+                  <p className="font-semibold text-white">Nagpur Headquarters (Est. 2026)</p>
+                  <p className="text-slate-300 mt-0.5">
+                    3rd Floor, Technology Tower B, IT Park Road, Subhash Nagar, Nagpur, Maharashtra 440022
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <a
+                href="mailto:sales@infoworldtech.co.in?subject=Inquiry%20for%20Sanjay%20Badguye%20-%20infoworldtech.co.in"
+                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-[#0E2427] bg-[#F6F4EC] rounded-sm hover:bg-[#E9E5D8] transition-colors whitespace-nowrap shrink-0"
+              >
+                <span>Contact sales</span>
+                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+              </a>
             </div>
           </div>
 
           {/* Right Validated Contact Form Column */}
           <div className="lg:col-span-7">
-            <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8">
+            <div className="bg-[#F6F4EC] text-[#0E2427] border border-white/15 rounded-sm p-6 sm:p-8">
               {submitState.status === 'success' ? (
                 <div role="status" className="py-8 text-center space-y-4">
                   <CheckCircle2
-                    className="w-12 h-12 text-emerald-700 mx-auto"
+                    className="w-12 h-12 text-[#196A52] mx-auto"
                     aria-hidden="true"
                   />
-                  <h3 className="font-display text-2xl font-bold text-slate-900">
+                  <h3 className="font-serif text-2xl font-medium text-[#0E2427]">
                     Inquiry Submitted Successfully
                   </h3>
-                  <p className="text-sm sm:text-base text-slate-600 max-w-md mx-auto">
+                  <p className="text-sm sm:text-base text-[#0E2427]/75 max-w-md mx-auto">
                     {submitState.serverMessage}
                   </p>
                   {submitState.referenceId && (
-                    <p className="text-sm text-slate-800">
+                    <p className="text-sm text-[#0E2427]">
                       Reference ID:{' '}
-                      <span className="font-mono font-semibold text-blue-700 tabular-nums">
+                      <span className="font-mono font-semibold text-[#196A52] tabular-nums">
                         {submitState.referenceId}
                       </span>
                     </p>
@@ -266,7 +287,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
                     {submitState.mailtoHref && (
                       <a
                         href={submitState.mailtoHref}
-                        className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition-colors whitespace-nowrap shrink-0"
+                        className="px-5 py-2.5 text-sm font-semibold text-white bg-[#196A52] rounded-sm hover:bg-[#135440] transition-colors whitespace-nowrap shrink-0"
                       >
                         Send via Email App
                       </a>
@@ -274,7 +295,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
                     <button
                       type="button"
                       onClick={() => setSubmitState({ status: 'idle' })}
-                      className="px-5 py-2.5 text-sm font-semibold text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                      className="px-5 py-2.5 text-sm font-semibold text-[#0E2427] border border-[#0E2427]/25 rounded-sm hover:bg-[#E9E5D8] transition-colors cursor-pointer"
                     >
                       Send Another Inquiry
                     </button>
@@ -284,8 +305,8 @@ export function ContactSection({ preset }: ContactSectionProps) {
                 <form onSubmit={handleSubmit} noValidate className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="contact-name" className="block text-sm font-medium text-slate-800 mb-1.5">
-                        Full Name <span className="text-rose-600">*</span>
+                      <label htmlFor="contact-name" className="block text-sm font-medium text-[#0E2427] mb-1.5">
+                        Full Name <span className="text-rose-700">*</span>
                       </label>
                       <input
                         id="contact-name"
@@ -294,7 +315,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="e.g. Rohan Deshpande"
-                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+                        className="w-full px-3.5 py-2.5 text-sm text-[#0E2427] bg-white border border-[#0E2427]/20 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#196A52]"
                       />
                       {errors.name && (
                         <p className="mt-1 text-xs text-rose-700">{errors.name}</p>
@@ -302,8 +323,8 @@ export function ContactSection({ preset }: ContactSectionProps) {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-email" className="block text-sm font-medium text-slate-800 mb-1.5">
-                        Email Address <span className="text-rose-600">*</span>
+                      <label htmlFor="contact-email" className="block text-sm font-medium text-[#0E2427] mb-1.5">
+                        Email Address <span className="text-rose-700">*</span>
                       </label>
                       <input
                         id="contact-email"
@@ -312,7 +333,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="rohan@company.co.in"
-                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+                        className="w-full px-3.5 py-2.5 text-sm text-[#0E2427] bg-white border border-[#0E2427]/20 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#196A52]"
                       />
                       {errors.email && (
                         <p className="mt-1 text-xs text-rose-700">{errors.email}</p>
@@ -322,7 +343,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="contact-phone" className="block text-sm font-medium text-slate-800 mb-1.5">
+                      <label htmlFor="contact-phone" className="block text-sm font-medium text-[#0E2427] mb-1.5">
                         Phone Number
                       </label>
                       <input
@@ -331,7 +352,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="+91 98230 00000"
-                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+                        className="w-full px-3.5 py-2.5 text-sm text-[#0E2427] bg-white border border-[#0E2427]/20 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#196A52]"
                       />
                       {errors.phone && (
                         <p className="mt-1 text-xs text-rose-700">{errors.phone}</p>
@@ -339,7 +360,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-company" className="block text-sm font-medium text-slate-800 mb-1.5">
+                      <label htmlFor="contact-company" className="block text-sm font-medium text-[#0E2427] mb-1.5">
                         Organization / College (if fresher)
                       </label>
                       <input
@@ -348,21 +369,21 @@ export function ContactSection({ preset }: ContactSectionProps) {
                         value={company}
                         onChange={(e) => setCompany(e.target.value)}
                         placeholder="Company or Institute Name"
-                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+                        className="w-full px-3.5 py-2.5 text-sm text-[#0E2427] bg-white border border-[#0E2427]/20 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#196A52]"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="contact-type" className="block text-sm font-medium text-slate-800 mb-1.5">
-                        Inquiry Category <span className="text-rose-600">*</span>
+                      <label htmlFor="contact-type" className="block text-sm font-medium text-[#0E2427] mb-1.5">
+                        Inquiry Category <span className="text-rose-700">*</span>
                       </label>
                       <select
                         id="contact-type"
                         value={inquiryType}
                         onChange={(e) => setInquiryType(e.target.value)}
-                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+                        className="w-full px-3.5 py-2.5 text-sm text-[#0E2427] bg-white border border-[#0E2427]/20 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#196A52]"
                       >
                         {INQUIRY_TYPES.map((type) => (
                           <option key={type} value={type}>
@@ -373,7 +394,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-subject" className="block text-sm font-medium text-slate-800 mb-1.5">
+                      <label htmlFor="contact-subject" className="block text-sm font-medium text-[#0E2427] mb-1.5">
                         Topic / Role
                       </label>
                       <input
@@ -381,15 +402,15 @@ export function ContactSection({ preset }: ContactSectionProps) {
                         type="text"
                         value={subject}
                         onChange={(e) => setSubject(e.target.value)}
-                        placeholder="e.g. PulseERP Demo or 2026 Fresher Role"
-                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+                        placeholder="e.g. SAP B1 Integration or 2026 Fresher Role"
+                        className="w-full px-3.5 py-2.5 text-sm text-[#0E2427] bg-white border border-[#0E2427]/20 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#196A52]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="contact-message" className="block text-sm font-medium text-slate-800 mb-1.5">
-                      Project Brief or Application Note <span className="text-rose-600">*</span>
+                    <label htmlFor="contact-message" className="block text-sm font-medium text-[#0E2427] mb-1.5">
+                      Project Brief or Application Note <span className="text-rose-700">*</span>
                     </label>
                     <textarea
                       id="contact-message"
@@ -397,8 +418,8 @@ export function ContactSection({ preset }: ContactSectionProps) {
                       required
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Tell us about your software goals, timeline, or engineering background..."
-                      className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+                      placeholder="Tell us about your IT infrastructure, software goals, or engineering background..."
+                      className="w-full px-3.5 py-2.5 text-sm text-[#0E2427] bg-white border border-[#0E2427]/20 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#196A52]"
                     />
                     {errors.message && (
                       <p className="mt-1 text-xs text-rose-700">{errors.message}</p>
@@ -408,20 +429,20 @@ export function ContactSection({ preset }: ContactSectionProps) {
                   {submitState.status === 'error' && submitState.serverMessage && (
                     <div
                       role="alert"
-                      className="p-3.5 rounded-lg bg-rose-50 border border-rose-200 text-xs sm:text-sm text-rose-800"
+                      className="p-3.5 rounded-sm bg-rose-50 border border-rose-200 text-xs sm:text-sm text-rose-800"
                     >
                       {submitState.serverMessage}
                     </div>
                   )}
 
                   <div className="pt-2 flex flex-wrap items-center justify-between gap-4">
-                    <p className="text-xs text-slate-500">
-                      Direct review by our Nagpur leads · 24-hour response SLA
+                    <p className="text-xs text-[#0E2427]/65">
+                      Attention: Sanjay Badguye · Nagpur IT Park
                     </p>
                     <button
                       type="submit"
                       disabled={submitState.status === 'submitting'}
-                      className="px-6 py-3 text-sm font-semibold text-white bg-blue-700 rounded-lg hover:bg-blue-800 disabled:opacity-60 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+                      className="px-6 py-3 text-sm font-semibold text-white bg-[#196A52] rounded-sm hover:bg-[#135440] disabled:opacity-60 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#196A52] focus-visible:ring-offset-2"
                     >
                       {submitState.status === 'submitting' ? 'Sending Inquiry...' : 'Submit Inquiry'}
                     </button>

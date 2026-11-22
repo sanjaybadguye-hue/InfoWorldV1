@@ -1,322 +1,379 @@
 import { useState } from 'react';
-import { ArrowUpRight, Check, X } from 'lucide-react';
-import { OFFERINGS, type OfferingItem } from '../data/siteData';
+import {
+  ArrowRight,
+  Check,
+  Cpu,
+  HardDrive,
+  Layers,
+  Monitor,
+  Network,
+  Printer,
+  Server,
+  ShieldCheck,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react';
+import {
+  CAPABILITY_PILLARS,
+  INFRASTRUCTURE_PIECES,
+  PROCESS_STEPS,
+  type CapabilityPillar,
+  type InfrastructurePiece,
+} from '../data/siteData';
 import { SafeImage } from './SafeImage';
 
 interface OfferingsSectionProps {
   onInquireOffering: (inquiryType: string, subject: string) => void;
 }
 
-type FilterOption = 'all' | 'product' | 'service';
+const PIECE_ICONS: Record<string, typeof Monitor> = {
+  'desktops-laptops': Monitor,
+  'servers-thin-clients': Server,
+  'networking-integration': Network,
+  'printers-plotters': Printer,
+  'infrastructure-design': Cpu,
+  'configuration-management': SlidersHorizontal,
+  'maintenance-support': ShieldCheck,
+  'business-software-apps': Layers,
+};
+
+type PillarFilter = 'all' | 'infrastructure' | 'software';
 
 export function OfferingsSection({ onInquireOffering }: OfferingsSectionProps) {
-  const [filter, setFilter] = useState<FilterOption>('all');
-  const [selectedOffering, setSelectedOffering] = useState<OfferingItem | null>(null);
+  const [filter, setFilter] = useState<PillarFilter>('all');
+  const [selectedPillar, setSelectedPillar] = useState<CapabilityPillar | null>(null);
+  const [activePiece, setActivePiece] = useState<InfrastructurePiece>(INFRASTRUCTURE_PIECES[0]);
 
-  const products = OFFERINGS.filter((item) => item.kind === 'product');
-  const services = OFFERINGS.filter((item) => item.kind === 'service');
-
-  const showProducts = filter === 'all' || filter === 'product';
-  const showServices = filter === 'all' || filter === 'service';
-
-  const featuredProduct = products.find((p) => p.featured);
-  const secondaryProducts = products.filter((p) => !p.featured);
+  const visiblePillars =
+    filter === 'all'
+      ? CAPABILITY_PILLARS
+      : CAPABILITY_PILLARS.filter((item) => item.kind === filter);
 
   return (
-    <section id="offerings" className="py-16 lg:py-20 bg-slate-50 border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header + Segmented Filter */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-slate-200">
-          <div className="max-w-2xl">
-            <p className="text-sm font-medium text-blue-700 mb-2">
-              IT Products &amp; Engineering Services
-            </p>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 text-balance">
-              Software built to run operations reliably, not sit in slide decks.
-            </h2>
-          </div>
-
-          <div
-            role="tablist"
-            aria-label="Filter IT products and services"
-            className="inline-flex items-center gap-1 p-1 bg-slate-200/80 rounded-lg self-start md:self-auto"
-          >
-            {(
-              [
-                { id: 'all', label: 'All Offerings' },
-                { id: 'product', label: 'IT Products' },
-                { id: 'service', label: 'IT Services' },
-              ] as const
-            ).map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={filter === tab.id}
-                onClick={() => setFilter(tab.id)}
-                className={`px-3.5 py-2 text-xs sm:text-sm font-medium rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 ${
-                  filter === tab.id
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* IT Products Asymmetric Showcase */}
-        {showProducts && (
-          <div className="mt-12">
-            <div className="flex items-baseline justify-between mb-6">
-              <h3 className="font-display text-xl font-bold text-slate-900">
-                Flagship IT Products
-              </h3>
-              <span className="text-sm text-slate-500 tabular-nums">
-                3 Enterprise Platforms · Ready for Deployment
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {featuredProduct && (
-                <article className="lg:col-span-7 bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col">
-                  {featuredProduct.imageSrc && (
-                    <div className="aspect-[16/9] bg-slate-100 border-b border-slate-200 overflow-hidden">
-                      <SafeImage
-                        src={featuredProduct.imageSrc}
-                        alt={featuredProduct.imageAlt ?? featuredProduct.title}
-                        fallbackTitle={featuredProduct.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between">
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-2">
-                        IT Product · {featuredProduct.deploymentTarget} · {featuredProduct.slaMetric}
-                      </p>
-                      <h4 className="font-display text-2xl font-bold text-slate-900">
-                        {featuredProduct.title}
-                      </h4>
-                      <p className="text-sm font-medium text-blue-700 mt-1">
-                        {featuredProduct.subtitle}
-                      </p>
-                      <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
-                        {featuredProduct.summary}
-                      </p>
-                    </div>
-
-                    <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedOffering(featuredProduct)}
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 hover:text-blue-700 transition-colors cursor-pointer"
-                      >
-                        <span>View Technical Specs</span>
-                        <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onInquireOffering('IT Product Demo', `Product Demo: ${featuredProduct.title}`)
-                        }
-                        className="px-4 py-2 text-sm font-medium text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                      >
-                        Request Product Demo
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              )}
-
-              <div className="lg:col-span-5 flex flex-col gap-6">
-                {secondaryProducts.map((product) => (
-                  <article
-                    key={product.id}
-                    className="flex-1 bg-white border border-slate-200 rounded-xl p-6 sm:p-7 flex flex-col justify-between"
-                  >
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-2">
-                        IT Product · {product.slaMetric}
-                      </p>
-                      <h4 className="font-display text-xl font-bold text-slate-900">
-                        {product.title}
-                      </h4>
-                      <p className="text-sm font-medium text-blue-700 mt-1">{product.subtitle}</p>
-                      <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                        {product.summary}
-                      </p>
-                    </div>
-
-                    <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedOffering(product)}
-                        className="inline-flex items-center gap-1 text-sm font-semibold text-slate-900 hover:text-blue-700 transition-colors cursor-pointer"
-                      >
-                        <span>View Specs</span>
-                        <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onInquireOffering('IT Product Demo', `Product Demo: ${product.title}`)
-                        }
-                        className="text-sm font-semibold text-blue-700 hover:text-blue-800 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                      >
-                        Book Demo
-                      </button>
-                    </div>
-                  </article>
-                ))}
+    <>
+      {/* Light Warm Alabaster Section — PDF Page 2: One Capable Partner */}
+      <section id="offerings" className="py-16 lg:py-24 bg-[#F6F4EC] border-b border-[#0E2427]/12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-3 text-xs font-mono tracking-[0.18em] uppercase text-[#196A52] mb-4">
+                <span className="w-6 h-px bg-[#196A52]" aria-hidden="true" />
+                <span>One Capable Partner</span>
               </div>
+
+              <h2 className="font-serif font-medium text-3xl sm:text-5xl tracking-tight text-[#0E2427] leading-[1.1] text-balance">
+                Technology for the{' '}
+                <span className="italic font-normal text-[#196A52]">whole operation.</span>
+              </h2>
+
+              <p className="mt-5 text-base sm:text-lg text-[#0E2427]/75 leading-relaxed max-w-xl">
+                Good technology is more than a purchase. We bring products, implementation and ongoing care together around the way your organization works.
+              </p>
+            </div>
+
+            <div
+              role="tablist"
+              aria-label="Filter IT Infrastructure and Business Software"
+              className="inline-flex items-center gap-1 p-1 bg-[#E9E5D8] rounded-md self-start md:self-auto"
+            >
+              {(
+                [
+                  { id: 'all', label: 'All Capabilities' },
+                  { id: 'infrastructure', label: 'IT Infrastructure' },
+                  { id: 'software', label: 'Business Software' },
+                ] as const
+              ).map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={filter === tab.id}
+                  onClick={() => setFilter(tab.id)}
+                  className={`px-3.5 py-2 text-xs sm:text-sm font-medium rounded-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#196A52] ${
+                    filter === tab.id
+                      ? 'bg-white text-[#0E2427] shadow-xs'
+                      : 'text-[#0E2427]/70 hover:text-[#0E2427]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
           </div>
-        )}
 
-        {/* IT Services Editorial Numbered Grid */}
-        {showServices && (
-          <div id="services" className="mt-16">
-            <div className="flex items-baseline justify-between mb-6">
-              <h3 className="font-display text-xl font-bold text-slate-900">
-                Custom IT Engineering Services
-              </h3>
-              <span className="text-sm text-slate-500">
-                Delivered from Nagpur IT Park
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {services.map((service) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {visiblePillars.map((pillar) => {
+              const PillarIcon = pillar.kind === 'infrastructure' ? HardDrive : Layers;
+              return (
                 <article
-                  key={service.id}
-                  className="bg-white border border-slate-200 rounded-xl p-6 sm:p-7 flex flex-col justify-between"
+                  key={pillar.id}
+                  className="bg-[#F6F4EC] border border-[#0E2427]/18 rounded-sm overflow-hidden flex flex-col justify-between"
                 >
                   <div>
-                    <p className="text-xs font-medium text-slate-500 mb-2">
-                      IT Service · {service.slaMetric}
-                    </p>
-                    <h4 className="font-display text-lg sm:text-xl font-bold text-slate-900">
-                      {service.title}
-                    </h4>
-                    <p className="text-sm font-medium text-blue-700 mt-1">{service.subtitle}</p>
-                    <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                      {service.summary}
-                    </p>
-                    <ul className="mt-4 space-y-2">
-                      {service.deliverables.map((item) => (
-                        <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
-                          <Check className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" aria-hidden="true" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    {pillar.imageSrc && (
+                      <div className="aspect-[16/9] border-b border-[#0E2427]/12 bg-[#E9E5D8] overflow-hidden">
+                        <SafeImage
+                          src={pillar.imageSrc}
+                          alt={pillar.imageAlt ?? pillar.title}
+                          fallbackTitle={pillar.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+
+                    <div className="p-7 sm:p-9">
+                      <div className="flex items-center justify-between gap-4 mb-6">
+                        <span className="font-mono text-xs tracking-[0.16em] uppercase text-[#0E2427]/65">
+                          {pillar.code}
+                        </span>
+                        <span className="w-10 h-10 inline-flex items-center justify-center border border-[#0E2427]/20 rounded-sm text-[#196A52]">
+                          <PillarIcon className="w-5 h-5" aria-hidden="true" />
+                        </span>
+                      </div>
+
+                      <h3 className="font-serif text-2xl sm:text-3xl font-medium text-[#0E2427] tracking-tight">
+                        {pillar.title}
+                      </h3>
+
+                      <p className="mt-3 text-sm sm:text-base text-[#0E2427]/75 leading-relaxed">
+                        {pillar.description}
+                      </p>
+
+                      <ul className="mt-5 space-y-2 pt-5 border-t border-[#0E2427]/10">
+                        {pillar.highlights.slice(0, 3).map((item) => (
+                          <li key={item} className="flex items-start gap-2.5 text-sm text-[#0E2427]/85">
+                            <Check className="w-4 h-4 text-[#196A52] shrink-0 mt-0.5" aria-hidden="true" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
+                  <div className="px-7 sm:px-9 pb-7 pt-4 border-t border-[#0E2427]/10 flex flex-wrap items-center justify-between gap-4">
                     <button
                       type="button"
-                      onClick={() => setSelectedOffering(service)}
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-slate-900 hover:text-blue-700 transition-colors cursor-pointer"
+                      onClick={() => setSelectedPillar(pillar)}
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-[#196A52] hover:text-[#135440] transition-colors cursor-pointer"
                     >
-                      <span>Scope Details</span>
-                      <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                      <span>Explore capabilities</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </button>
 
                     <button
                       type="button"
                       onClick={() =>
-                        onInquireOffering('Custom IT Services', `Service Inquiry: ${service.title}`)
+                        onInquireOffering(
+                          pillar.kind === 'infrastructure' ? 'Custom IT Services' : 'IT Product Demo',
+                          `${pillar.title} Inquiry`
+                        )
                       }
-                      className="px-4 py-2 text-xs sm:text-sm font-medium text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-100 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                      className="px-4 py-2 text-xs sm:text-sm font-medium text-[#0E2427] border border-[#0E2427]/25 rounded-sm hover:bg-[#E9E5D8] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                     >
-                      Request Estimate
+                      Request Consultation
                     </button>
                   </div>
                 </article>
-              ))}
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Dark Forest Slate Section — PDF Page 3: The pieces that keep work moving */}
+      <section id="services" className="py-16 lg:py-24 bg-[#0E2427] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            <div className="lg:col-span-5">
+              <div className="flex items-center gap-3 text-xs font-mono tracking-[0.18em] uppercase text-[#DFA061] mb-4">
+                <span className="w-6 h-px bg-[#DFA061]" aria-hidden="true" />
+                <span>Built Around Your Needs</span>
+              </div>
+
+              <h2 className="font-serif font-medium text-3xl sm:text-5xl tracking-tight text-white leading-[1.1] text-balance">
+                The pieces that keep work{' '}
+                <span className="italic font-normal text-[#DFA061]">moving.</span>
+              </h2>
+
+              <p className="mt-5 text-base text-slate-300 leading-relaxed">
+                From individual devices to connected systems, find the technology and hands-on services to fit your environment.
+              </p>
+
+              {/* Active Piece Detail Panel */}
+              <div className="mt-8 p-6 bg-[#132E32] border border-white/15 rounded-sm">
+                <p className="font-mono text-xs tracking-[0.16em] uppercase text-[#DFA061]">
+                  Selected Capability · {activePiece.category}
+                </p>
+                <h3 className="font-serif text-xl font-medium text-white mt-2">
+                  {activePiece.title}
+                </h3>
+                <p className="mt-2.5 text-sm text-slate-300 leading-relaxed">
+                  {activePiece.detail}
+                </p>
+                <button
+                  type="button"
+                  onClick={() =>
+                    onInquireOffering('Custom IT Services', `Quote: ${activePiece.title}`)
+                  }
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#DFA061] hover:text-white transition-colors cursor-pointer"
+                >
+                  <span>Inquire about {activePiece.title}</span>
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+
+            {/* 8-Row Editorial Capability List matching PDF Page 3 */}
+            <div className="lg:col-span-7 divide-y divide-white/15 border-y border-white/15">
+              {INFRASTRUCTURE_PIECES.map((piece) => {
+                const Icon = PIECE_ICONS[piece.id] ?? Layers;
+                const isActive = activePiece.id === piece.id;
+                return (
+                  <button
+                    key={piece.id}
+                    type="button"
+                    onClick={() => setActivePiece(piece)}
+                    className={`w-full py-5 px-3 flex items-center justify-between gap-4 text-left transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFA061] ${
+                      isActive ? 'bg-white/6' : 'hover:bg-white/4'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4 min-w-0">
+                      <Icon
+                        className={`w-5 h-5 shrink-0 ${
+                          isActive ? 'text-[#DFA061]' : 'text-[#DFA061]/80'
+                        }`}
+                        aria-hidden="true"
+                      />
+                      <span className="text-base sm:text-lg text-white font-normal truncate">
+                        {piece.title}
+                      </span>
+                    </div>
+
+                    <span className="font-mono text-xs uppercase tracking-wider text-slate-400 shrink-0">
+                      {isActive ? 'Selected' : piece.category}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
 
-      {/* Specification Detail Modal */}
-      {selectedOffering && (
+      {/* Warm Stone Process Section — PDF Page 4: Straightforward By Design */}
+      <section id="process" className="py-16 lg:py-24 bg-[#E9E5D8] border-b border-[#0E2427]/12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-14">
+            <div className="flex items-center gap-3 text-xs font-mono tracking-[0.18em] uppercase text-[#196A52] mb-4">
+              <span className="w-6 h-px bg-[#196A52]" aria-hidden="true" />
+              <span>Straightforward By Design</span>
+            </div>
+
+            <h2 className="font-serif font-medium text-3xl sm:text-5xl tracking-tight text-[#0E2427] leading-[1.1] text-balance">
+              From question to{' '}
+              <span className="italic font-normal text-[#196A52]">working answer.</span>
+            </h2>
+
+            <p className="mt-5 text-base sm:text-lg text-[#0E2427]/75 leading-relaxed">
+              Technology decisions have real consequences. We make the path from first conversation to ongoing support clear and considered.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-8 border-t border-[#0E2427]/18">
+            {PROCESS_STEPS.map((step) => (
+              <div key={step.code} className="space-y-3">
+                <p className="font-mono text-xs tracking-[0.16em] uppercase text-[#0E2427]/60 tabular-nums">
+                  {step.code}
+                </p>
+                <h3 className="font-serif text-2xl font-medium text-[#0E2427]">
+                  {step.title}
+                </h3>
+                <p className="text-sm sm:text-base text-[#0E2427]/75 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Capability Specification Modal */}
+      {selectedPillar && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-labelledby="offering-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs"
-          onClick={() => setSelectedOffering(null)}
+          aria-labelledby="pillar-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0E2427]/70 backdrop-blur-xs"
+          onClick={() => setSelectedPillar(null)}
         >
           <div
-            className="bg-white border border-slate-200 rounded-xl max-w-xl w-full p-6 sm:p-8 shadow-xl max-h-[90vh] overflow-y-auto"
+            className="bg-[#F6F4EC] border border-[#0E2427]/20 rounded-sm max-w-xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-medium text-slate-500 mb-1">
-                  {selectedOffering.kind === 'product' ? 'IT Product Specification' : 'IT Service Scope'} · {selectedOffering.slaMetric}
+                <p className="font-mono text-xs tracking-[0.16em] uppercase text-[#196A52]">
+                  {selectedPillar.code} · {selectedPillar.slaMetric}
                 </p>
-                <h3 id="offering-modal-title" className="font-display text-2xl font-bold text-slate-900">
-                  {selectedOffering.title}
+                <h3
+                  id="pillar-modal-title"
+                  className="font-serif text-2xl sm:text-3xl font-medium text-[#0E2427] mt-1"
+                >
+                  {selectedPillar.title}
                 </h3>
-                <p className="text-sm font-medium text-blue-700 mt-1">{selectedOffering.subtitle}</p>
               </div>
+
               <button
                 type="button"
-                aria-label="Close details"
-                onClick={() => setSelectedOffering(null)}
-                className="w-10 h-10 inline-flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 cursor-pointer shrink-0"
+                aria-label="Close capability details"
+                onClick={() => setSelectedPillar(null)}
+                className="w-10 h-10 inline-flex items-center justify-center rounded-sm border border-[#0E2427]/20 text-[#0E2427] hover:bg-[#E9E5D8] cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed">
-              {selectedOffering.summary}
+            <p className="mt-4 text-sm sm:text-base text-[#0E2427]/80 leading-relaxed">
+              {selectedPillar.description}
             </p>
 
-            <div className="mt-6 pt-5 border-t border-slate-200">
-              <p className="text-xs font-semibold text-slate-900 mb-3">
-                Included Deliverables &amp; Architecture
+            <div className="mt-6 pt-5 border-t border-[#0E2427]/12">
+              <p className="font-mono text-xs uppercase tracking-wider text-[#0E2427]/65 mb-3">
+                Scope &amp; Deliverables
               </p>
               <ul className="space-y-2.5">
-                {selectedOffering.deliverables.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
-                    <Check className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" aria-hidden="true" />
+                {selectedPillar.highlights.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-[#0E2427]/85">
+                    <Check className="w-4 h-4 text-[#196A52] shrink-0 mt-0.5" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="mt-6 pt-5 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-              <div className="text-xs text-slate-500">
-                Deployment: <span className="font-medium text-slate-800">{selectedOffering.deploymentTarget}</span>
-              </div>
+            <div className="mt-6 pt-5 border-t border-[#0E2427]/12 flex flex-wrap items-center justify-between gap-4">
+              <span className="text-xs text-[#0E2427]/70">
+                Deployment: <strong className="text-[#0E2427]">{selectedPillar.deploymentTarget}</strong>
+              </span>
 
               <button
                 type="button"
                 onClick={() => {
-                  const item = selectedOffering;
-                  setSelectedOffering(null);
+                  const target = selectedPillar;
+                  setSelectedPillar(null);
                   onInquireOffering(
-                    item.kind === 'product' ? 'IT Product Demo' : 'Custom IT Services',
-                    `Inquiry: ${item.title}`
+                    target.kind === 'infrastructure' ? 'Custom IT Services' : 'IT Product Demo',
+                    `${target.title} Consultation`
                   );
                 }}
-                className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition-colors cursor-pointer"
+                className="px-5 py-2.5 text-sm font-semibold text-white bg-[#196A52] rounded-sm hover:bg-[#135440] transition-colors cursor-pointer"
               >
-                {selectedOffering.kind === 'product' ? 'Schedule Product Demo' : 'Discuss This Service'}
+                Start a Conversation
               </button>
             </div>
           </div>
         </div>
       )}
-    </section>
+    </>
   );
 }

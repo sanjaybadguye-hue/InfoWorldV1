@@ -31,6 +31,7 @@ export default defineConfig(() => {
 
           if (resolvedOutDir === 'docs' && fs.existsSync(outDir)) {
             fs.writeFileSync(path.join(outDir, '.nojekyll'), '');
+            fs.writeFileSync(path.join(outDir, 'CNAME'), 'infoworldtech.co.in\n');
             const indexHtml = path.join(outDir, 'index.html');
             const notFoundHtml = path.join(outDir, '404.html');
             if (fs.existsSync(indexHtml)) {

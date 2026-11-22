@@ -3,21 +3,33 @@ import productErpImg from '../assets/images/product_erp_dashboard_1795348002154.
 import teamMentorshipImg from '../assets/images/team_mentorship_studio_1795348002451.jpg';
 import blogCloudImg from '../assets/images/blog_cloud_infra_1795348003844.jpg';
 
-export type OfferingKind = 'product' | 'service';
+export type OfferingKind = 'infrastructure' | 'software';
 
-export interface OfferingItem {
+export interface CapabilityPillar {
   id: string;
+  code: string;
   kind: OfferingKind;
-  numberLabel?: string;
   title: string;
-  subtitle: string;
-  summary: string;
-  deliverables: string[];
+  description: string;
+  highlights: string[];
   deploymentTarget: string;
   slaMetric: string;
-  featured?: boolean;
   imageSrc?: string;
   imageAlt?: string;
+}
+
+export interface InfrastructurePiece {
+  id: string;
+  title: string;
+  category: 'Hardware' | 'Systems' | 'Support' | 'Software';
+  detail: string;
+}
+
+export interface ProcessStep {
+  code: string;
+  label: string;
+  title: string;
+  description: string;
 }
 
 export interface CaseStudy {
@@ -45,7 +57,7 @@ export interface TeamRole {
 export interface BlogPost {
   id: string;
   slug: string;
-  category: 'Engineering' | 'IT Products' | 'Nagpur & Culture' | 'Careers';
+  category: 'Infrastructure' | 'Business Software' | 'Nagpur & Culture' | 'Careers';
   title: string;
   excerpt: string;
   authorName: string;
@@ -54,8 +66,17 @@ export interface BlogPost {
   readTime: string;
   coverImage: string;
   coverAlt: string;
-  featured?: boolean;
   paragraphs: string[];
+}
+
+export interface PartnerTrack {
+  id: string;
+  name: string;
+  category: 'Networking & Security' | 'Cloud & Enterprise';
+  statusLabel: string;
+  targetWindow: string;
+  summary: string;
+  scopeItems: string[];
 }
 
 export const SITE_ASSETS = {
@@ -65,142 +86,124 @@ export const SITE_ASSETS = {
   blogCloud: blogCloudImg,
 };
 
-export const HERO_FACTS = [
+export const CAPABILITY_PILLARS: CapabilityPillar[] = [
   {
-    label: 'Founded & Base',
-    value: '2026 · Nagpur',
-    detail: 'IT Park Corridor, Maharashtra',
+    id: 'it-infrastructure',
+    code: '01 — INFRASTRUCTURE',
+    kind: 'infrastructure',
+    title: 'IT infrastructure',
+    description:
+      'Design, supply, configuration, integration, management and maintenance for the systems behind your business.',
+    highlights: [
+      'End-user compute: enterprise desktops, laptops, engineering workstations, and thin clients',
+      'On-premise and hybrid servers, structured LAN/WAN networking, and secure firewall integration',
+      'Print fleet & CAD plotters configured with centralized user quotas and AMC support',
+      'Proactive configuration management, preventive health checks, and rapid on-site Nagpur SLA',
+    ],
+    deploymentTarget: 'On-Premise, Branch Office & Hybrid VPC',
+    slaMetric: 'Same-Day Nagpur Dispatch Support',
+    imageSrc: SITE_ASSETS.heroStudio,
+    imageAlt: 'InfoWorldtech engineers managing enterprise IT infrastructure and workstations in Nagpur',
   },
   {
-    label: 'Engineering Talent',
-    value: 'Senior + Freshers',
-    detail: 'Principal leads mentoring 2026 grads',
-  },
-  {
-    label: 'Product Suite',
-    value: '3 Flagship Systems',
-    detail: 'ERP, Service Desk & Audit Vault',
-  },
-  {
-    label: 'Response SLA',
-    value: 'Under 24 Hours',
-    detail: 'Direct architecture scoping call',
+    id: 'software-solutions',
+    code: '02 — BUSINESS SOFTWARE',
+    kind: 'software',
+    title: 'Software solutions',
+    description:
+      'Business software that makes work more connected: SAP Business One, custom software, mobile apps and e-invoicing.',
+    highlights: [
+      'SAP Business One implementation, add-on workflows, and GST-compliant e-invoicing integration',
+      'Custom web applications and PulseERP modules tailored to manufacturing and distribution ops',
+      'Field-ready Android & iOS mobile apps for sales ordering, dispatch proof, and service tickets',
+      'Ongoing release maintenance, database tuning, and DeskFlow SLA helpdesk coverage',
+    ],
+    deploymentTarget: 'Cloud SaaS, Private Server or Mobile',
+    slaMetric: '99.95% Production Uptime SLA',
+    imageSrc: SITE_ASSETS.productErp,
+    imageAlt: 'Business software analytics and SAP Business One connected operations dashboard',
   },
 ];
 
-export const OFFERINGS: OfferingItem[] = [
+export const INFRASTRUCTURE_PIECES: InfrastructurePiece[] = [
   {
-    id: 'pulse-erp',
-    kind: 'product',
-    title: 'PulseERP Core',
-    subtitle: 'Modular Inventory, GST Billing & Dispatch Suite',
-    summary:
-      'Built in Nagpur for multi-warehouse manufacturers and regional distributors. Unifies raw-material procurement, GST e-invoicing, batch tracking, and dispatch telemetry without bloated enterprise licensing.',
-    deliverables: [
-      'Real-time multi-depot stock ledger with barcode & batch traceability',
-      'Automated GST e-way bill generation and Tally / Zoho accounting sync',
-      'Role-based branch dashboards with offline-tolerant mobile dispatch mode',
-      'Dedicated onboarding and data migration in 3–5 weeks',
-    ],
-    deploymentTarget: 'Cloud SaaS or Private VPC (India Region)',
-    slaMetric: '99.95% Uptime Guarantee',
-    featured: true,
-    imageSrc: SITE_ASSETS.productErp,
-    imageAlt: 'PulseERP Core regional logistics and warehouse analytics dashboard on a studio display',
+    id: 'desktops-laptops',
+    title: 'Desktops, laptops & workstations',
+    category: 'Hardware',
+    detail: 'Commercial-grade endpoints sized for office teams, CAD designers, and engineering pods with pre-imaged security policies.',
   },
   {
-    id: 'deskflow-sla',
-    kind: 'product',
-    title: 'DeskFlow SLA',
-    subtitle: 'Internal IT Service Desk & Asset Ticketing',
-    summary:
-      'A structured ticketing, SLA escalation, and hardware inventory platform engineered for growing 50-to-1,500 employee organizations.',
-    deliverables: [
-      'Automated ticket routing with SLA breach alerts and escalation rules',
-      'IT asset lifecycle registry covering laptops, licenses, and vendor renewals',
-      'Self-service employee portal with knowledge base and audit trails',
-    ],
-    deploymentTarget: 'Web & Single Sign-On Ready',
-    slaMetric: '15-Minute Incident Triage Workflow',
+    id: 'servers-thin-clients',
+    title: 'Servers & thin clients',
+    category: 'Hardware',
+    detail: 'Rack/tower application servers, virtualization hosts, and low-maintenance thin-client terminals for branch operations.',
   },
   {
-    id: 'auditvault-log',
-    kind: 'product',
-    title: 'AuditVault Compliance',
-    subtitle: 'Tamper-Evident Access & Change Telemetry',
-    summary:
-      'Lightweight compliance logging middleware for Indian fintechs, healthcare portals, and B2B SaaS teams preparing for ISO 27001 or DPDP audits.',
-    deliverables: [
-      'Cryptographically chained event logs with instant CSV & PDF auditor exports',
-      'REST & webhook ingestion SDKs for Node.js, Python, and Java services',
-      'Automated retention policies and anomalous privilege alert rules',
-    ],
-    deploymentTarget: 'Containerized Sidecar or Managed API',
-    slaMetric: 'Sub-25ms Async Log Ingestion',
+    id: 'networking-integration',
+    title: 'Networking & integration',
+    category: 'Systems',
+    detail: 'Managed switches, enterprise Wi-Fi, site-to-site VPNs, and reliable multi-branch connectivity.',
   },
   {
-    id: 'custom-engineering',
-    kind: 'service',
-    numberLabel: '01.',
-    title: '01. Custom Web & Cloud Engineering',
-    subtitle: 'Full-Stack Product Architecture & Delivery',
-    summary:
-      'End-to-end engineering of customer portals, B2B SaaS platforms, and high-throughput APIs built with TypeScript, React, Node.js, PostgreSQL, and cloud-native infrastructure.',
-    deliverables: [
-      'Architecture blueprint, schema modeling, and UI systems in sprint one',
-      'Automated unit, integration, and end-to-end test suites before release',
-      'Clean source-code ownership with full operational runbooks',
-    ],
-    deploymentTarget: 'AWS, GCP, or Azure (Mumbai & Hyderabad Zones)',
-    slaMetric: '2-Week Verified Release Cadence',
+    id: 'printers-plotters',
+    title: 'Printers & plotters',
+    category: 'Hardware',
+    detail: 'High-volume office multifunction printers, barcode label printers, and wide-format engineering plotters.',
   },
   {
-    id: 'erp-modernization',
-    kind: 'service',
-    numberLabel: '02.',
-    title: '02. Legacy Modernization & System Integration',
-    subtitle: 'Bridging Desktop Accounting, ERPs & Web Portals',
-    summary:
-      'We replace fragile spreadsheet workflows and aging desktop software with reliable web applications and resilient API bridges.',
-    deliverables: [
-      'Zero-loss data migration from legacy SQL, Excel, or desktop ERPs',
-      'Bi-directional payment gateway, WhatsApp Business, and logistics API integration',
-      'Incremental cutover plans that keep daily operations uninterrupted',
-    ],
-    deploymentTarget: 'Hybrid On-Premise & Cloud Connectors',
-    slaMetric: 'Zero Unplanned Cutover Downtime',
+    id: 'infrastructure-design',
+    title: 'Infrastructure design & supply',
+    category: 'Systems',
+    detail: 'Vendor-neutral BOM specification, hardware sourcing, cabling layout, and power backup planning.',
   },
   {
-    id: 'managed-devops',
-    kind: 'service',
-    numberLabel: '03.',
-    title: '03. Managed DevOps, QA & Security Hardening',
-    subtitle: 'CI/CD Automation, Observability & Load Testing',
-    summary:
-      'Continuous delivery pipelines, infrastructure-as-code, automated regression testing, and 24x7 uptime monitoring run from our Nagpur engineering center.',
-    deliverables: [
-      'Docker & Kubernetes deployment automation with zero-downtime rollbacks',
-      'Vulnerability scanning, TLS hardening, and automated encrypted backups',
-      'Monthly infrastructure cost optimization and latency profiling',
-    ],
-    deploymentTarget: 'Linux, Containers & Managed Cloud',
-    slaMetric: '30% Average Cloud Cost Reduction',
+    id: 'configuration-management',
+    title: 'Configuration & management',
+    category: 'Systems',
+    detail: 'Directory services, endpoint patching, automated backups, and role-based access governance.',
   },
   {
-    id: 'hybrid-pods',
-    kind: 'service',
-    numberLabel: '04.',
-    title: '04. Hybrid Engineering Pods (Senior + Freshers)',
-    subtitle: 'Dedicated Long-Term Delivery Teams from Nagpur',
-    summary:
-      'A balanced team structure where Principal Engineers own architecture and code quality while mentored 2026 engineering graduates accelerate feature delivery and test coverage.',
-    deliverables: [
-      '1 Principal/Senior Architect paired with 2–4 vetted Nagpur engineering graduates',
-      'Daily code reviews, architectural guardrails, and transparent sprint velocity',
-      'Predictable monthly retainers tailored for startups and mid-market enterprises',
-    ],
-    deploymentTarget: 'Dedicated Remote or Hybrid Nagpur Pod',
-    slaMetric: '40% Lower Total Delivery Cost vs Tier-1 Metros',
+    id: 'maintenance-support',
+    title: 'Maintenance & support',
+    category: 'Support',
+    detail: 'Preventive maintenance contracts, DeskFlow ticket tracking, and direct Nagpur technician escalation.',
+  },
+  {
+    id: 'business-software-apps',
+    title: 'Business software & apps',
+    category: 'Software',
+    detail: 'SAP Business One workflows, GST e-invoicing bridges, custom web portals, and field mobile apps.',
+  },
+];
+
+export const PROCESS_STEPS: ProcessStep[] = [
+  {
+    code: '01 / UNDERSTAND',
+    label: 'Understand',
+    title: 'Listen first',
+    description:
+      'We get to know your objectives, existing setup and the work that needs to happen.',
+  },
+  {
+    code: '02 / PLAN',
+    label: 'Plan',
+    title: 'Specify with care',
+    description:
+      'We shape a practical solution around what fits your requirements and environment.',
+  },
+  {
+    code: '03 / DELIVER',
+    label: 'Deliver',
+    title: 'Put it in place',
+    description:
+      'We help configure, integrate and deploy the products and software you need.',
+  },
+  {
+    code: '04 / SUPPORT',
+    label: 'Support',
+    title: 'Stay involved',
+    description:
+      'Maintenance and ongoing support help keep your technology working as intended.',
   },
 ];
 
@@ -214,9 +217,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     metricUnit: 'Dispatch Turnaround Time',
     timeframe: 'Achieved in 90 Days',
     challenge:
-      'Paper manifests and disconnected branch spreadsheets delayed cold-storage truck clearances across 14 regional depots.',
+      'Paper manifests and disconnected depot spreadsheets delayed truck clearances and GST e-way generation across 14 hubs.',
     outcome:
-      'Deployed PulseERP Core with barcode gate check-ins and real-time GST e-way generation, cutting average loading clearance from 52 minutes to 30 minutes.',
+      'Deployed integrated warehouse hardware, barcode endpoints, and automated e-invoicing workflows, cutting loading clearance from 52 to 30 minutes.',
   },
   {
     id: 'central-medsupply',
@@ -224,48 +227,48 @@ export const CASE_STUDIES: CaseStudy[] = [
     sector: 'Healthcare Wholesale',
     city: 'Nagpur, Raipur & Indore',
     metricValue: '99.96%',
-    metricUnit: 'Order Sync Uptime',
+    metricUnit: 'Order & ERP Sync Uptime',
     timeframe: 'Measured over 6 Months',
     challenge:
-      'Legacy desktop billing crashed during peak evening pharmacy restocking windows handling 18,400+ daily line items.',
+      'Aging on-premise servers and desktop billing crashed during peak evening pharmacy restocking windows handling 18,400+ daily line items.',
     outcome:
-      'Migrated core ordering to a fault-tolerant Node.js and PostgreSQL cluster engineered by a hybrid InfoWorldtech pod with automated failover.',
+      'Upgraded branch server infrastructure and connected SAP Business One billing with a resilient web ordering portal engineered by our hybrid Nagpur pod.',
   },
   {
-    id: 'orange-city-finserve',
-    client: 'Deccan MSME FinServe',
-    sector: 'NBFC Operations Portal',
-    city: 'Nagpur & Pune',
+    id: 'deccan-manufacturing',
+    client: 'Deccan Precision Components',
+    sector: 'Industrial Manufacturing',
+    city: 'MIHAN & Hingna MIDC, Nagpur',
     metricValue: '3.4x',
     metricUnit: 'Faster Monthly Reconciliation',
     timeframe: 'First Quarter Post-Launch',
     challenge:
-      'Operations analysts spent 6 business days every month manually matching NEFT/UPI repayment CSVs against loan ledgers.',
+      'Shop-floor attendance, CAD workstations, and finance ledgers operated in separate silos requiring 6 days of manual monthly reconciliation.',
     outcome:
-      'Built an automated reconciliation engine and DeskFlow SLA ticket desk, reducing close cycles to under 36 hours with full audit traceability.',
+      'Unified shop-floor networking, thin clients, and custom finance connectors under a single maintenance SLA—reducing close cycles to under 36 hours.',
   },
 ];
 
 export const TEAM_ROLES: TeamRole[] = [
   {
-    id: 'senior-fullstack',
+    id: 'senior-erp-architect',
     track: 'Experienced',
-    title: 'Principal / Senior Full-Stack Architect',
+    title: 'Senior Business Software & SAP B1 Architect',
     experience: '6–12 Years Experience',
     location: 'Nagpur (IT Park) / Hybrid',
     focus:
-      'Own system architecture, database modeling, client technical discovery, and mentor a cohort of 2026 associate engineers.',
-    skills: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'System Design'],
+      'Lead SAP Business One integrations, custom TypeScript web portals, e-invoicing APIs, and mentor our 2026 associate engineers.',
+    skills: ['SAP Business One', 'SQL / HANA', 'TypeScript', 'Node.js', 'GST E-Invoicing'],
   },
   {
-    id: 'devops-lead',
+    id: 'infra-systems-lead',
     track: 'Experienced',
-    title: 'Senior Cloud & DevOps Engineer',
-    experience: '5–9 Years Experience',
+    title: 'Senior IT Infrastructure & Systems Lead',
+    experience: '5–10 Years Experience',
     location: 'Nagpur (IT Park)',
     focus:
-      'Architect CI/CD pipelines, Kubernetes clusters, observability dashboards, and security compliance across InfoWorldtech products.',
-    skills: ['AWS / GCP', 'Docker', 'Terraform', 'CI/CD', 'Linux Security'],
+      'Design server, networking, workstation, and firewall deployments for regional enterprises and oversee AMC support SLAs.',
+    skills: ['Enterprise Servers', 'LAN / VPN', 'Virtualization', 'Windows / Linux', 'Endpoint Security'],
   },
   {
     id: 'fresher-swe-2026',
@@ -274,18 +277,18 @@ export const TEAM_ROLES: TeamRole[] = [
     experience: '0–1 Year · B.E. / B.Tech / MCA',
     location: 'Nagpur (On-site Mentorship)',
     focus:
-      'Join our 18-week structured engineering residency pairing with principal leads on live TypeScript, UI, and API production modules.',
-    skills: ['JavaScript / TypeScript', 'React Basics', 'SQL', 'Git', 'Problem Solving'],
+      'Join our 18-week structured residency working directly with principal architects on custom web apps, mobile tools, and ERP connectors.',
+    skills: ['TypeScript / JavaScript', 'React', 'SQL Basics', 'Git', 'Problem Solving'],
   },
   {
-    id: 'fresher-qa-2026',
+    id: 'fresher-infra-2026',
     track: 'Freshers 2026',
-    title: 'Associate QA & Automation Engineer (2026 Batch)',
+    title: 'Junior Systems & Support Engineer (2026 Batch)',
     experience: '0–1 Year · Freshers Welcome',
     location: 'Nagpur (On-site Mentorship)',
     focus:
-      'Build end-to-end Playwright test suites, API contract checks, and regression workflows alongside experienced product owners.',
-    skills: ['Manual & API Testing', 'Playwright / Cypress', 'Postman', 'SQL Basics'],
+      'Hands-on deployment and configuration of workstations, thin clients, printers/plotters, and branch networking under senior supervision.',
+    skills: ['Hardware & OS Setup', 'Networking Basics', 'Troubleshooting', 'Ticketing Support'],
   },
 ];
 
@@ -294,80 +297,165 @@ export const BLOG_POSTS: BlogPost[] = [
     id: 'why-nagpur-2026',
     slug: 'why-we-built-infoworldtech-nagpur-2026',
     category: 'Nagpur & Culture',
-    title: 'Why We Founded InfoWorldtech in Nagpur in 2026: Pairing Veteran Architects with Freshers',
+    title: 'The Right Tech, Ready for Work: Why We Built InfoWorldtech in Nagpur in 2026',
     excerpt:
-      'Most software firms either burn budgets on top-heavy teams or hand critical systems to unsupervised juniors. Here is the balanced hybrid engineering model we built in Nagpur.',
+      'Businesses rarely need hype—they need dependable IT infrastructure, connected software, and a team of experienced leads and freshers who stay accountable after launch.',
     authorName: 'Rajesh Deshmukh',
     authorRole: 'Co-Founder & Principal Architect',
     publishedAt: 'Nov 14, 2026',
     readTime: '5 min read',
     coverImage: SITE_ASSETS.blogCloud,
-    coverAlt: 'InfoWorldtech engineering command workspace in Nagpur',
-    featured: true,
+    coverAlt: 'InfoWorldtech engineering and infrastructure command center in Nagpur',
     paragraphs: [
-      'When we incorporated InfoWorldtech.co.in in Nagpur in early 2026, we started with a practical observation from twenty years of enterprise software delivery across India: clients rarely struggle because of a lack of frameworks. They struggle because architecture ownership and execution velocity are disconnected.',
-      'Nagpur sits at a pivotal inflection point. With MIHAN, the IT Park corridor, and strong engineering graduates emerging each year from local universities, Central India holds deep technical talent that previously had to relocate to Bengaluru or Pune just to work on serious production systems.',
-      'We designed InfoWorldtech around a deliberate two-tier craft structure. Every client engagement and internal product—like PulseERP Core and DeskFlow SLA—is architected by experienced engineers with 6 to 14 years of production battle scars. Right beside them sit our 2026 fresher cohorts, embedded directly inside small delivery pods rather than siloed in dead-end support queues.',
-      'Experienced leads handle domain modeling, security boundaries, database indexing, and code review standards. Freshers bring tireless curiosity, modern testing rigor, and rapid UI iteration under daily mentorship. Within 18 weeks, our graduates ship audited, production-grade TypeScript—and our clients get senior-level reliability without metropolitan overhead.',
+      'When we launched InfoWorldtech.co.in in Nagpur in 2026, we wanted to bridge a gap we saw across growing Indian businesses: hardware vendors disappeared after invoice delivery, while software agencies rarely understood the networks, printers, servers, and accounting workflows running on the ground.',
+      'Good technology is more than a purchase. Whether a company needs 40 properly configured workstations and branch servers, SAP Business One connected to GST e-invoicing, or a custom web and mobile application, the real test happens on Monday morning when operations begin.',
+      'In our Nagpur IT Park studio, we combine two complementary strengths. Experienced specialists with 6 to 14 years of real-world infrastructure and enterprise software delivery lead architecture, vendor sizing, and SLAs. Right alongside them work our 2026 freshers—selected from Central India engineering colleges and mentored daily inside live project pods.',
+      'That balance allows us to plan carefully, put systems in place cleanly, and stay available long after go-live.',
     ],
   },
   {
-    id: 'gst-inventory-sync',
-    slug: 'zero-downtime-gst-inventory-sync-indian-msmes',
-    category: 'IT Products',
-    title: 'Designing Zero-Downtime GST & Multi-Warehouse Inventory Sync in PulseERP Core',
+    id: 'sap-b1-e-invoicing',
+    slug: 'connecting-sap-business-one-and-gst-e-invoicing',
+    category: 'Business Software',
+    title: 'Connecting SAP Business One, Mobile Ordering & GST E-Invoicing Without Manual Re-Entry',
     excerpt:
-      'How we engineered an idempotent event ledger in PostgreSQL so regional warehouses stay accurate even when branch internet connections drop.',
+      'How connected business software eliminates duplicate spreadsheet exports between warehouse dispatch counters and finance teams.',
     authorName: 'Sneha Kulkarni',
-    authorRole: 'Senior Backend Engineer',
+    authorRole: 'Senior Business Software Lead',
     publishedAt: 'Oct 28, 2026',
-    readTime: '7 min read',
+    readTime: '6 min read',
     coverImage: SITE_ASSETS.productErp,
-    coverAlt: 'PulseERP Core warehouse metrics display',
+    coverAlt: 'Business software operations and regional logistics metrics monitor',
     paragraphs: [
-      'Distributors operating depots across Vidarbha and Central India face a reality that textbook cloud tutorials ignore: warehouse internet links flicker during peak evening dispatch hours, yet trucks cannot wait at loading bays.',
-      'In PulseERP Core, we avoided naive optimistic overwrites. Instead, every stock movement—inward GRN, inter-depot transfer, or GST invoice allocation—is recorded as an append-only ledger entry with a client-generated idempotency key.',
-      'When a branch terminal reconnects after a brief outage, queued dispatch events replay in deterministic sequence. Database constraints verify batch availability atomically before finalizing e-way bill payloads, eliminating phantom stock counts and duplicate tax filings.',
-      'For mid-market manufacturers, reliability is not a slide-deck promise—it is knowing that 6:00 PM dispatch manifests reconcile cleanly with morning accounting reports every single day.',
+      'Many distributors run a solid core ERP like SAP Business One in their head office, yet still rely on WhatsApp photos and Excel sheets for field orders, warehouse picking, and e-way bill reconciliation.',
+      'By building lightweight web and mobile extensions directly integrated with SAP Business One APIs and GST IRP e-invoicing gateways, field teams enter an order once on mobile, warehouse terminals print barcode dispatch slips immediately, and finance sees IRN numbers reflected in real time.',
+      'Every integration we ship uses idempotent transaction queues so temporary branch network drops never produce duplicate invoices or stalled trucks.',
     ],
   },
   {
     id: 'fresher-first-120-days',
     slug: 'first-120-days-as-a-2026-fresher-in-nagpur',
     category: 'Careers',
-    title: 'My First 120 Days as a 2026 Engineering Graduate Shipping Production Code in Nagpur',
+    title: 'My First 120 Days as a 2026 Graduate Deploying Software & Systems in Nagpur',
     excerpt:
-      'What structured mentorship actually looks like when your first pull request is reviewed line-by-line by a Principal Architect.',
+      'Inside InfoWorldtech’s mentorship model where fresh graduates learn architecture discipline, hardware-software integration, and production QA firsthand.',
     authorName: 'Aarav Meshram',
     authorRole: 'Associate Software Engineer (2026 Cohort)',
     publishedAt: 'Oct 12, 2026',
     readTime: '4 min read',
     coverImage: SITE_ASSETS.teamMentorship,
-    coverAlt: 'Senior engineer mentoring fresh graduates over architecture diagrams',
+    coverAlt: 'Senior engineer mentoring 2026 graduates over system diagrams',
     paragraphs: [
-      'Joining an IT company straight out of college in 2026 can feel intimidating—especially when everyone talks about AI-assisted coding and rapid releases. At InfoWorldtech, my onboarding did not start with watching forty hours of generic videos.',
-      'In week one, I was paired with a senior engineer to trace a real customer ticket inside DeskFlow SLA. Instead of writing throwaway dummy code, I wrote integration tests for SLA escalation edge cases, learning how database transactions and timezone boundaries behave in production.',
-      'By month two, I was building accessible React views for warehouse reporting with strict TypeScript contracts. Every pull request received patient, concrete feedback—not just what to change, but why an index or an error boundary mattered six months down the line.',
-      'Staying in Nagpur while working on enterprise-grade products has given our entire 2026 fresher batch real engineering confidence from day one.',
+      'Joining a new IT company right out of college in 2026 can feel overwhelming if you are left reading docs in isolation. At InfoWorldtech in Nagpur, every 2026 fresher is paired directly with a senior architect or systems lead from week one.',
+      'During my first month, I shadowed a full branch rollout—seeing how servers, thin clients, and barcode printers connect to the web inventory software I was writing tests for. Understanding the physical office environment made me a far more practical developer.',
+      'By month three, I was shipping TypeScript modules and automated regression checks reviewed line-by-line by experienced engineers who genuinely invest time in teaching why reliability matters.',
     ],
   },
   {
-    id: 'cloud-latency-egress',
-    slug: 'cutting-cloud-egress-and-latency-by-38-percent',
-    category: 'Engineering',
-    title: 'Cutting Cloud Egress and Query Latency by 38% on Regional Logistics Dashboards',
+    id: 'practical-it-infrastructure-sizing',
+    slug: 'sizing-servers-workstations-and-networking-for-growing-offices',
+    category: 'Infrastructure',
+    title: 'Sizing Workstations, Servers & Branch Networking Without Overbuying',
     excerpt:
-      'Practical PostgreSQL indexing, payload trimming, and edge caching adjustments that saved a regional fleet operator real monthly cloud spend.',
+      'A practical checklist we use in Nagpur when specifying desktops, thin clients, plotters, and backup power for 25-to-250 seat offices.',
     authorName: 'Vikram Joshi',
-    authorRole: 'Cloud & DevOps Lead',
+    authorRole: 'Senior Infrastructure & Systems Lead',
     publishedAt: 'Sep 29, 2026',
-    readTime: '6 min read',
+    readTime: '5 min read',
     coverImage: SITE_ASSETS.heroStudio,
-    coverAlt: 'Engineers analyzing query performance at Nagpur office',
+    coverAlt: 'Modern office workstations and collaborative IT environment',
     paragraphs: [
-      'Performance bottlenecks rarely require exotic rewrites. During a quarterly infrastructure audit for a regional logistics portal, we discovered that 64% of their cloud database CPU time came from unindexed dashboard summary queries polling every thirty seconds.',
-      'By introducing covering composite indexes on shipment status and depot timestamps, replacing full-row JSON payloads with lean projected DTOs, and adding short-lived materialized rollups for daily KPI strips, P95 API latency dropped from 640ms to 195ms.',
-      'Simultaneously, enabling Brotli compression and trimming redundant payload fields reduced monthly outbound cloud egress by 38%. The result was faster browser responsiveness for depot operators on modest mobile connections and an immediate reduction in recurring AWS bills.',
+      'Over-specifying hardware wastes capital; under-specifying creates daily slowdowns that cost far more in lost team hours. Before supplying a single machine, we map exact workflows by department.',
+      'Finance and ERP data-entry desks run reliably on centrally managed thin clients or modest business desktops backed by automated server snapshots, whereas engineering and CAD teams require dedicated workstation GPUs and calibrated wide-format plotters.',
+      'Pairing right-sized hardware with clean structured cabling, dual-WAN failover, and scheduled preventive maintenance keeps office IT predictable year after year.',
     ],
   },
 ];
+
+export const PARTNER_TRACKS: PartnerTrack[] = [
+  {
+    id: 'cisco-networking',
+    name: 'Cisco',
+    category: 'Networking & Security',
+    statusLabel: 'Planned Technology Partnership',
+    targetWindow: '2026–2027 Rollout',
+    summary:
+      'Enterprise switching, branch routing, firewall security appliances, and Meraki/Catalyst wireless deployments for multi-floor offices and industrial parks across Nagpur.',
+    scopeItems: [
+      'Managed Layer-2/Layer-3 switching & VLAN segmentation',
+      'Next-generation firewalls and secure site-to-site branch VPNs',
+      'High-density enterprise Wi-Fi planning and controller setup',
+    ],
+  },
+  {
+    id: 'microsoft-cloud',
+    name: 'Microsoft',
+    category: 'Cloud & Enterprise',
+    statusLabel: 'Planned Technology Partnership',
+    targetWindow: '2026–2027 Rollout',
+    summary:
+      'Microsoft 365 productivity licensing, Azure hybrid cloud workloads, Windows Server licensing, and Intune endpoint governance for growing businesses.',
+    scopeItems: [
+      'Microsoft 365 Business & Enterprise tenant migration',
+      'Azure virtual machines, backup vaults, and SQL hosting',
+      'Active Directory, Entra ID SSO & Windows Server administration',
+    ],
+  },
+  {
+    id: 'networking-cabling',
+    name: 'Networking & Structured Cabling',
+    category: 'Networking & Security',
+    statusLabel: 'Planned Infrastructure Alliance',
+    targetWindow: '2026 Rollout',
+    summary:
+      'End-to-end passive and active networking—Cat6A/fiber backbone cabling, server racks, patch panels, dual-ISP failover, and campus wireless links.',
+    scopeItems: [
+      'Cat6A & single/multi-mode fiber backbone installation and testing',
+      '42U/24U server rack dressing, PDU power, and UPS redundancy',
+      'Multi-WAN SD-WAN load balancing for uninterrupted branch ERP access',
+    ],
+  },
+  {
+    id: 'cctv-surveillance',
+    name: 'CCTV & Physical Security Systems',
+    category: 'Networking & Security',
+    statusLabel: 'Planned Security Partnership',
+    targetWindow: '2026 Rollout',
+    summary:
+      'Commercial IP CCTV camera networks, NVR/VMS storage servers, biometric access control, and warehouse perimeter monitoring built for factories and offices.',
+    scopeItems: [
+      'PoE IP cameras for warehouses, loading bays, and office floors',
+      'Redundant NVR recording, retention sizing, and mobile remote viewing',
+      'Biometric door access & attendance sync with HR/ERP systems',
+    ],
+  },
+  {
+    id: 'endpoint-server-oems',
+    name: 'Enterprise Workstations, Servers & Print OEMs',
+    category: 'Cloud & Enterprise',
+    statusLabel: 'Planned Hardware Channel',
+    targetWindow: '2026–2027 Rollout',
+    summary:
+      'Authorized commercial supply and warranty coordination for business desktops, CAD workstations, rack servers, thin clients, and wide-format plotters.',
+    scopeItems: [
+      'Pre-imaged commercial laptops, desktops, and thin-client fleets',
+      'Tower & rack servers sized for local ERP and database workloads',
+      'Multifunction printers, barcode labelers, and engineering plotters',
+    ],
+  },
+  {
+    id: 'sap-erp-backup',
+    name: 'Business ERP & Automated Backup Ecosystem',
+    category: 'Cloud & Enterprise',
+    statusLabel: 'Planned Software & Continuity Track',
+    targetWindow: '2026–2027 Rollout',
+    summary:
+      'Complementary partnerships across SAP Business One add-on tooling, GST e-invoicing connectors, endpoint antivirus/EDR, and encrypted off-site backups.',
+    scopeItems: [
+      'SAP Business One & Tally integration middleware',
+      'Immutable 3-2-1 backup policies for branch servers and databases',
+      'Centralized EDR endpoint security and patch compliance',
+    ],
+  },
+];
+
