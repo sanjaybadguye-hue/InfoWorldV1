@@ -1,3 +1,8 @@
+import heroStudioImg from '../assets/images/hero_nagpur_tech_1795348002099.jpg';
+import productErpImg from '../assets/images/product_erp_dashboard_1795348002154.jpg';
+import teamMentorshipImg from '../assets/images/team_mentorship_studio_1795348002451.jpg';
+import blogCloudImg from '../assets/images/blog_cloud_infra_1795348003844.jpg';
+
 export type OfferingKind = 'product' | 'service';
 
 export interface OfferingItem {
@@ -54,10 +59,10 @@ export interface BlogPost {
 }
 
 export const SITE_ASSETS = {
-  heroStudio: '/src/assets/images/hero_nagpur_tech_1795348002099.jpg',
-  productErp: '/src/assets/images/product_erp_dashboard_1795348002154.jpg',
-  teamMentorship: '/src/assets/images/team_mentorship_studio_1795348002451.jpg',
-  blogCloud: '/src/assets/images/blog_cloud_infra_1795348003844.jpg',
+  heroStudio: heroStudioImg,
+  productErp: productErpImg,
+  teamMentorship: teamMentorshipImg,
+  blogCloud: blogCloudImg,
 };
 
 export const HERO_FACTS = [

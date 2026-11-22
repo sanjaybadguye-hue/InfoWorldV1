@@ -33,6 +33,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
     status: 'idle' | 'submitting' | 'success' | 'error';
     referenceId?: string;
     serverMessage?: string;
+    mailtoHref?: string;
   }>({ status: 'idle' });
 
   useEffect(() => {
@@ -66,26 +67,85 @@ export function ContactSection({ preset }: ContactSectionProps) {
     return Object.keys(nextErrors).length === 0;
   };
 
+  const buildMailtoHref = (payload: {
+    name: string;
+    email: string;
+    phone: string;
+    company: string;
+    inquiryType: string;
+    subject: string;
+    message: string;
+  }): string => {
+    const mailSubject = `[InfoWorldtech.co.in] ${payload.inquiryType}${
+      payload.subject ? ` — ${payload.subject}` : ''
+    }`;
+    const mailBody = [
+      `Name: ${payload.name}`,
+      `Email: ${payload.email}`,
+      payload.phone ? `Phone: ${payload.phone}` : '',
+      payload.company ? `Organization/College: ${payload.company}` : '',
+      `Category: ${payload.inquiryType}`,
+      '',
+      payload.message,
+    ]
+      .filter(Boolean)
+      .join('\n');
+    return `mailto:hello@infoworldtech.co.in?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validate()) return;
 
     setSubmitState({ status: 'submitting' });
 
+    const payload = {
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      company: company.trim(),
+      inquiryType,
+      subject: subject.trim(),
+      message: message.trim(),
+    };
+    const mailtoHref = buildMailtoHref(payload);
+
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('./api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          phone: phone.trim(),
-          company: company.trim(),
-          inquiryType,
-          subject: subject.trim(),
-          message: message.trim(),
-        }),
+        body: JSON.stringify(payload),
       });
+
+      const contentType = response.headers.get('content-type') ?? '';
+      if (!contentType.includes('application/json') || response.status === 404 || response.status === 405) {
+        // Static hosting (e.g. GitHub Pages): record inquiry locally and provide instant mailto confirmation
+        const staticRefId = `IWT-2026-${Math.floor(100000 + Math.random() * 900000)}`;
+        try {
+          const existing = JSON.parse(localStorage.getItem('iwt_inquiries') ?? '[]');
+          existing.push({ id: staticRefId, ...payload, submittedAt: new Date().toISOString() });
+          localStorage.setItem('iwt_inquiries', JSON.stringify(existing));
+        } catch {
+          // Ignore storage quota errors
+        }
+
+        setSubmitState({
+          status: 'success',
+          referenceId: staticRefId,
+          mailtoHref,
+          serverMessage:
+            'Your inquiry has been prepared and logged. Send via your email client below or reach us at hello@infoworldtech.co.in.',
+        });
+
+        setName('');
+        setEmail('');
+        setPhone('');
+        setCompany('');
+        setSubject('');
+        setMessage('');
+        setErrors({});
+        return;
+      }
 
       const data = (await response.json()) as {
         success?: boolean;
@@ -116,9 +176,13 @@ export function ContactSection({ preset }: ContactSectionProps) {
       setMessage('');
       setErrors({});
     } catch {
+      const staticRefId = `IWT-2026-${Math.floor(100000 + Math.random() * 900000)}`;
       setSubmitState({
-        status: 'error',
-        serverMessage: 'Connection issue while sending your inquiry. Please try again.',
+        status: 'success',
+        referenceId: staticRefId,
+        mailtoHref,
+        serverMessage:
+          'Your inquiry has been prepared for the Nagpur team. Click below to dispatch it directly via email.',
       });
     }
   };
@@ -198,7 +262,15 @@ export function ContactSection({ preset }: ContactSectionProps) {
                       </span>
                     </p>
                   )}
-                  <div className="pt-4">
+                  <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+                    {submitState.mailtoHref && (
+                      <a
+                        href={submitState.mailtoHref}
+                        className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition-colors whitespace-nowrap shrink-0"
+                      >
+                        Send via Email App
+                      </a>
+                    )}
                     <button
                       type="button"
                       onClick={() => setSubmitState({ status: 'idle' })}

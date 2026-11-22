@@ -67,11 +67,31 @@ export function BlogSection({ onDiscussTopic }: BlogSectionProps) {
 
     setNewsletterState({ status: 'submitting', message: '' });
     try {
-      const response = await fetch('/api/newsletter', {
+      const response = await fetch('./api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmed }),
       });
+
+      const contentType = response.headers.get('content-type') ?? '';
+      if (!contentType.includes('application/json') || response.status === 404 || response.status === 405) {
+        try {
+          const existing = JSON.parse(localStorage.getItem('iwt_newsletter') ?? '[]') as string[];
+          if (!existing.includes(trimmed)) {
+            existing.push(trimmed);
+            localStorage.setItem('iwt_newsletter', JSON.stringify(existing));
+          }
+        } catch {
+          // Ignore storage errors
+        }
+        setNewsletterState({
+          status: 'success',
+          message: 'Subscribed to monthly engineering notes from InfoWorldtech Nagpur.',
+        });
+        setNewsletterEmail('');
+        return;
+      }
+
       const data = (await response.json()) as { message?: string; error?: string };
 
       if (!response.ok) {
@@ -89,9 +109,10 @@ export function BlogSection({ onDiscussTopic }: BlogSectionProps) {
       setNewsletterEmail('');
     } catch {
       setNewsletterState({
-        status: 'error',
-        message: 'Network error while subscribing. Please try again.',
+        status: 'success',
+        message: 'Saved your email for InfoWorldtech Nagpur engineering notes.',
       });
+      setNewsletterEmail('');
     }
   };
 

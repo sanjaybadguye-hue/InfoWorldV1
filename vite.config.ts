@@ -2,28 +2,40 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
-import {defineConfig} from 'vite';
+import {defineConfig, type ResolvedConfig} from 'vite';
 
 export default defineConfig(() => {
+  let resolvedOutDir = 'dist';
+
   return {
+    base: './',
     plugins: [
       react(),
       tailwindcss(),
-      // Copies src/assets into dist/ so root-relative URLs like
-      // "/src/assets/images/..." (e.g. generate_image output) still resolve
-      // in production builds. Do not remove.
       {
-        name: 'copy-unbundled-src-assets',
+        name: 'github-pages-and-assets',
         apply: 'build',
+        configResolved(config: ResolvedConfig): void {
+          resolvedOutDir = config.build.outDir || 'dist';
+        },
         closeBundle(error?: Error): void {
           if (error) {
             return;
           }
-          const distDir = path.resolve(__dirname, 'dist');
+          const outDir = path.resolve(__dirname, resolvedOutDir);
           const srcAssets = path.resolve(__dirname, 'src/assets');
-          const distAssets = path.resolve(distDir, 'src/assets');
-          if (fs.existsSync(distDir) && fs.existsSync(srcAssets)) {
-            fs.cpSync(srcAssets, distAssets, {recursive: true, force: true});
+          const outAssets = path.resolve(outDir, 'src/assets');
+          if (fs.existsSync(outDir) && fs.existsSync(srcAssets)) {
+            fs.cpSync(srcAssets, outAssets, {recursive: true, force: true});
+          }
+
+          if (resolvedOutDir === 'docs' && fs.existsSync(outDir)) {
+            fs.writeFileSync(path.join(outDir, '.nojekyll'), '');
+            const indexHtml = path.join(outDir, 'index.html');
+            const notFoundHtml = path.join(outDir, '404.html');
+            if (fs.existsSync(indexHtml)) {
+              fs.copyFileSync(indexHtml, notFoundHtml);
+            }
           }
         },
       },
