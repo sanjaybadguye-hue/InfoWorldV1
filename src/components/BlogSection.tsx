@@ -91,7 +91,7 @@ export function BlogSection({ onDiscussTopic }: BlogSectionProps) {
         }
         setNewsletterState({
           status: 'success',
-          message: 'Subscribed to monthly engineering notes from InfoWorldtech Nagpur.',
+          message: 'Subscribed to monthly engineering notes from InfoWorld Technologies Nagpur.',
         });
         setNewsletterEmail('');
         return;
@@ -109,13 +109,13 @@ export function BlogSection({ onDiscussTopic }: BlogSectionProps) {
 
       setNewsletterState({
         status: 'success',
-        message: data.message ?? 'Subscribed to InfoWorldtech engineering notes.',
+        message: data.message ?? 'Subscribed to InfoWorld Technologies engineering notes.',
       });
       setNewsletterEmail('');
     } catch {
       setNewsletterState({
         status: 'success',
-        message: 'Saved your email for InfoWorldtech Nagpur engineering notes.',
+        message: 'Saved your email for InfoWorld Technologies Nagpur engineering notes.',
       });
       setNewsletterEmail('');
     }
@@ -128,7 +128,7 @@ export function BlogSection({ onDiscussTopic }: BlogSectionProps) {
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 text-xs font-mono tracking-[0.18em] uppercase text-[#196A52] mb-4">
               <span className="w-6 h-px bg-[#196A52]" aria-hidden="true" />
-              <span>InfoWorldtech Journal · 2026</span>
+              <span>InfoWorld Technologies Journal · 2026</span>
             </div>
             <h2 className="font-serif font-medium text-3xl sm:text-4xl tracking-tight text-[#0E2427] leading-[1.12] text-balance">
               Practical field notes from our{' '}

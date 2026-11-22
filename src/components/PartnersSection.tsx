@@ -128,7 +128,7 @@ export function PartnersSection({ onInquirePartner }: PartnersSectionProps) {
               OEMs, Distributors &amp; System Integrators
             </p>
             <h3 className="font-serif text-xl sm:text-2xl font-medium text-[#0E2427]">
-              Looking to collaborate with InfoWorldtech in Central India?
+              Looking to collaborate with InfoWorld Technologies in Central India?
             </h3>
             <p className="mt-1.5 text-sm text-[#0E2427]/75">
               Channel managers and enterprise clients can connect directly with Sanjay Badguye at sales@infoworldtech.co.in for Cisco, Microsoft, Networking, CCTV, or hardware rollouts.

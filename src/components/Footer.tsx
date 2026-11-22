@@ -1,23 +1,25 @@
 import { ArrowUp } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 
 export function Footer() {
   return (
     <footer className="bg-[#0E2427] text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-8 border-b border-white/12">
-          <div className="flex items-center gap-3.5">
-            <span className="w-9 h-9 inline-flex items-center justify-center border border-white/25 rounded-sm font-serif text-lg font-semibold text-[#DFA061]">
-              i.
-            </span>
-            <div>
-              <a
-                href="#top"
-                className="font-mono text-xs tracking-[0.18em] uppercase font-semibold text-white block"
-              >
-                InfoWorldtech.co.in
-              </a>
-              <p className="text-xs text-slate-400 mt-0.5">
-                IT Infrastructure &amp; Business Software · Nagpur, India
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <a
+              href="#top"
+              aria-label="InfoWorld Technologies Top"
+              className="inline-flex bg-[#F6F4EC] px-3.5 py-2 rounded-sm self-start"
+            >
+              <BrandLogo />
+            </a>
+            <div className="text-xs text-slate-300 space-y-0.5">
+              <p className="font-mono tracking-[0.14em] uppercase text-[#DFA061]">
+                infoworldtech.co.in
+              </p>
+              <p>
+                Shri Sunder Chhabi Nivas, House No. 221, Ganji Peth Ganesh Chowk, Near Rajwada Palace, Nagpur - 440018
               </p>
             </div>
           </div>
@@ -49,7 +51,7 @@ export function Footer() {
 
         <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-400">
           <p>
-            © 2026 InfoWorldtech · Nagpur, India · Attn: Sanjay Badguye ·{' '}
+            © 2026 InfoWorld Technologies · Nagpur, India · Attn: Sanjay Badguye ·{' '}
             <a href="mailto:sales@infoworldtech.co.in" className="text-[#DFA061] hover:underline">
               sales@infoworldtech.co.in
             </a>

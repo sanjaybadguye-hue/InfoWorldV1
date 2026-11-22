@@ -241,9 +241,13 @@ export function ContactSection({ preset }: ContactSectionProps) {
                   <MapPin className="w-4 h-4" aria-hidden="true" />
                 </span>
                 <div className="text-sm">
-                  <p className="font-semibold text-white">Nagpur Headquarters (Est. 2026)</p>
-                  <p className="text-slate-300 mt-0.5">
-                    3rd Floor, Technology Tower B, IT Park Road, Subhash Nagar, Nagpur, Maharashtra 440022
+                  <p className="font-semibold text-white">InfoWorld Technologies — Nagpur Office</p>
+                  <p className="text-slate-300 mt-0.5 leading-relaxed">
+                    Shri Sunder Chhabi Nivas, House No. 221,
+                    <br />
+                    Ganji Peth Ganesh Chowk, Near Rajwada Palace,
+                    <br />
+                    Nagpur - 440018
                   </p>
                 </div>
               </div>
@@ -437,7 +441,7 @@ export function ContactSection({ preset }: ContactSectionProps) {
 
                   <div className="pt-2 flex flex-wrap items-center justify-between gap-4">
                     <p className="text-xs text-[#0E2427]/65">
-                      Attention: Sanjay Badguye · Nagpur IT Park
+                      Attention: Sanjay Badguye · Ganji Peth, Nagpur - 440018
                     </p>
                     <button
                       type="submit"

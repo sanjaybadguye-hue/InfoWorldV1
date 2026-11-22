@@ -43,7 +43,7 @@ export function ProofAndTeamSection({ onApplyRole }: ProofAndTeamSectionProps) {
             <div className="flex-1 rounded-sm overflow-hidden border border-[#0E2427]/15 bg-[#E9E5D8] aspect-[4/3] lg:aspect-auto">
               <SafeImage
                 src={SITE_ASSETS.teamMentorship}
-                alt="Senior InfoWorldtech architect mentoring 2026 engineering graduates in Nagpur"
+                alt="Senior InfoWorld Technologies architect mentoring 2026 engineering graduates in Nagpur"
                 fallbackTitle="Experienced Leads & 2026 Freshers"
                 className="w-full h-full object-cover"
               />
@@ -62,7 +62,7 @@ export function ProofAndTeamSection({ onApplyRole }: ProofAndTeamSectionProps) {
             </h2>
 
             <p className="mt-5 text-base sm:text-lg text-[#0E2427]/80 leading-relaxed">
-              Founded in Nagpur in 2026, InfoWorldtech brings a practical, end-to-end perspective—from servers, networking, and workstations to SAP Business One, custom software, and e-invoicing—with a focus on choosing well, delivering thoughtfully, and staying available.
+              Founded in Nagpur in 2026, InfoWorld Technologies brings a practical, end-to-end perspective—from servers, networking, and workstations to SAP Business One, custom software, and e-invoicing—with a focus on choosing well, delivering thoughtfully, and staying available.
             </p>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 pt-8 border-t border-[#0E2427]/12">

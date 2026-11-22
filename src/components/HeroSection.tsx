@@ -54,8 +54,8 @@ export function HeroSection({ onScheduleCall }: HeroSectionProps) {
               <div className="w-full rounded-sm overflow-hidden border border-white/15 bg-[#153135] aspect-[16/10] lg:aspect-auto lg:min-h-[360px]">
                 <SafeImage
                   src={SITE_ASSETS.heroStudio}
-                  alt="Experienced architects and 2026 engineers collaborating inside InfoWorldtech's Nagpur workspace"
-                  fallbackTitle="InfoWorldtech.co.in Nagpur Studio"
+                  alt="Experienced architects and 2026 engineers collaborating inside InfoWorld Technologies' Nagpur workspace"
+                  fallbackTitle="InfoWorld Technologies · infoworldtech.co.in"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -64,7 +64,7 @@ export function HeroSection({ onScheduleCall }: HeroSectionProps) {
 
           {/* Bottom Provenance Bar matching PDF Page 1 */}
           <div className="mt-14 pt-6 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono tracking-[0.16em] uppercase text-slate-300">
-            <span>Nagpur, India · Est. 2026 · InfoWorldtech.co.in</span>
+            <span>InfoWorld Technologies · Nagpur 440018 · Est. 2026</span>
             <span className="tabular-nums text-slate-400">
               01 / 04 Infrastructure · Software · Experienced &amp; Freshers
             </span>

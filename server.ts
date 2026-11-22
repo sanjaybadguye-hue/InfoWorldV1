@@ -46,8 +46,8 @@ async function startServer() {
   app.get('/api/health', (_req, res) => {
     res.json({
       ok: true,
-      company: 'InfoWorldtech.co.in',
-      location: 'Nagpur, Maharashtra, India',
+      company: 'InfoWorld Technologies (infoworldtech.co.in)',
+      location: 'Ganji Peth, Nagpur 440018, India',
       year: 2026,
     });
   });
@@ -105,7 +105,7 @@ async function startServer() {
       success: true,
       referenceId: record.id,
       submittedAt: record.submittedAt,
-      message: 'Inquiry received by the InfoWorldtech Nagpur team. We respond within 1 business day.',
+      message: 'Inquiry received by InfoWorld Technologies (Attn: Sanjay Badguye). We respond within 1 business day.',
     });
   });
 
@@ -130,8 +130,8 @@ async function startServer() {
       success: true,
       alreadySubscribed,
       message: alreadySubscribed
-        ? 'You are already subscribed to InfoWorldtech engineering notes.'
-        : 'Subscribed to monthly engineering notes from InfoWorldtech Nagpur.',
+        ? 'You are already subscribed to InfoWorld Technologies engineering notes.'
+        : 'Subscribed to monthly engineering notes from InfoWorld Technologies Nagpur.',
     });
   });
 
@@ -155,7 +155,7 @@ async function startServer() {
   }
 
   app.listen(port, '0.0.0.0', () => {
-    console.log(`InfoWorldtech.co.in server listening on http://0.0.0.0:${port}`);
+    console.log(`InfoWorld Technologies (infoworldtech.co.in) server listening on http://0.0.0.0:${port}`);
   });
 }
 

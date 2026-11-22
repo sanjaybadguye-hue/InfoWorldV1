@@ -103,7 +103,7 @@ export const CAPABILITY_PILLARS: CapabilityPillar[] = [
     deploymentTarget: 'On-Premise, Branch Office & Hybrid VPC',
     slaMetric: 'Same-Day Nagpur Dispatch Support',
     imageSrc: SITE_ASSETS.heroStudio,
-    imageAlt: 'InfoWorldtech engineers managing enterprise IT infrastructure and workstations in Nagpur',
+    imageAlt: 'InfoWorld Technologies engineers managing enterprise IT infrastructure and workstations in Nagpur',
   },
   {
     id: 'software-solutions',
@@ -255,7 +255,7 @@ export const TEAM_ROLES: TeamRole[] = [
     track: 'Experienced',
     title: 'Senior Business Software & SAP B1 Architect',
     experience: '6–12 Years Experience',
-    location: 'Nagpur (IT Park) / Hybrid',
+    location: 'Nagpur (Ganji Peth) / Hybrid',
     focus:
       'Lead SAP Business One integrations, custom TypeScript web portals, e-invoicing APIs, and mentor our 2026 associate engineers.',
     skills: ['SAP Business One', 'SQL / HANA', 'TypeScript', 'Node.js', 'GST E-Invoicing'],
@@ -265,7 +265,7 @@ export const TEAM_ROLES: TeamRole[] = [
     track: 'Experienced',
     title: 'Senior IT Infrastructure & Systems Lead',
     experience: '5–10 Years Experience',
-    location: 'Nagpur (IT Park)',
+    location: 'Nagpur (Ganji Peth)',
     focus:
       'Design server, networking, workstation, and firewall deployments for regional enterprises and oversee AMC support SLAs.',
     skills: ['Enterprise Servers', 'LAN / VPN', 'Virtualization', 'Windows / Linux', 'Endpoint Security'],
@@ -297,7 +297,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: 'why-nagpur-2026',
     slug: 'why-we-built-infoworldtech-nagpur-2026',
     category: 'Nagpur & Culture',
-    title: 'The Right Tech, Ready for Work: Why We Built InfoWorldtech in Nagpur in 2026',
+    title: 'The Right Tech, Ready for Work: Why We Built InfoWorld Technologies in Nagpur in 2026',
     excerpt:
       'Businesses rarely need hype—they need dependable IT infrastructure, connected software, and a team of experienced leads and freshers who stay accountable after launch.',
     authorName: 'Rajesh Deshmukh',
@@ -305,11 +305,11 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedAt: 'Nov 14, 2026',
     readTime: '5 min read',
     coverImage: SITE_ASSETS.blogCloud,
-    coverAlt: 'InfoWorldtech engineering and infrastructure command center in Nagpur',
+    coverAlt: 'InfoWorld Technologies engineering and infrastructure command center in Nagpur',
     paragraphs: [
-      'When we launched InfoWorldtech.co.in in Nagpur in 2026, we wanted to bridge a gap we saw across growing Indian businesses: hardware vendors disappeared after invoice delivery, while software agencies rarely understood the networks, printers, servers, and accounting workflows running on the ground.',
+      'When we launched InfoWorld Technologies (infoworldtech.co.in) in Nagpur in 2026, we wanted to bridge a gap we saw across growing Indian businesses: hardware vendors disappeared after invoice delivery, while software agencies rarely understood the networks, printers, servers, and accounting workflows running on the ground.',
       'Good technology is more than a purchase. Whether a company needs 40 properly configured workstations and branch servers, SAP Business One connected to GST e-invoicing, or a custom web and mobile application, the real test happens on Monday morning when operations begin.',
-      'In our Nagpur IT Park studio, we combine two complementary strengths. Experienced specialists with 6 to 14 years of real-world infrastructure and enterprise software delivery lead architecture, vendor sizing, and SLAs. Right alongside them work our 2026 freshers—selected from Central India engineering colleges and mentored daily inside live project pods.',
+      'From our Ganji Peth, Nagpur office, we combine two complementary strengths. Experienced specialists with 6 to 14 years of real-world infrastructure and enterprise software delivery lead architecture, vendor sizing, and SLAs. Right alongside them work our 2026 freshers—selected from Central India engineering colleges and mentored daily inside live project pods.',
       'That balance allows us to plan carefully, put systems in place cleanly, and stay available long after go-live.',
     ],
   },
@@ -338,7 +338,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Careers',
     title: 'My First 120 Days as a 2026 Graduate Deploying Software & Systems in Nagpur',
     excerpt:
-      'Inside InfoWorldtech’s mentorship model where fresh graduates learn architecture discipline, hardware-software integration, and production QA firsthand.',
+      'Inside InfoWorld Technologies’ mentorship model where fresh graduates learn architecture discipline, hardware-software integration, and production QA firsthand.',
     authorName: 'Aarav Meshram',
     authorRole: 'Associate Software Engineer (2026 Cohort)',
     publishedAt: 'Oct 12, 2026',
@@ -346,7 +346,7 @@ export const BLOG_POSTS: BlogPost[] = [
     coverImage: SITE_ASSETS.teamMentorship,
     coverAlt: 'Senior engineer mentoring 2026 graduates over system diagrams',
     paragraphs: [
-      'Joining a new IT company right out of college in 2026 can feel overwhelming if you are left reading docs in isolation. At InfoWorldtech in Nagpur, every 2026 fresher is paired directly with a senior architect or systems lead from week one.',
+      'Joining a new IT company right out of college in 2026 can feel overwhelming if you are left reading docs in isolation. At InfoWorld Technologies in Nagpur, every 2026 fresher is paired directly with a senior architect or systems lead from week one.',
       'During my first month, I shadowed a full branch rollout—seeing how servers, thin clients, and barcode printers connect to the web inventory software I was writing tests for. Understanding the physical office environment made me a far more practical developer.',
       'By month three, I was shipping TypeScript modules and automated regression checks reviewed line-by-line by experienced engineers who genuinely invest time in teaching why reliability matters.',
     ],

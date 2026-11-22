@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 
 interface NavbarProps {
   onNavigateContact: (presetSubject?: string) => void;
@@ -19,12 +20,13 @@ export function Navbar({ onNavigateContact }: NavbarProps) {
   return (
     <header className="sticky top-0 z-40 bg-[#F6F4EC]/95 backdrop-blur-sm border-b border-[#0E2427]/12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Single text element wordmark */}
+        {/* Zone 1: Single-line BrandLogo lockup */}
         <a
           href="#top"
-          className="font-serif text-xl font-bold tracking-tight text-[#0E2427] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#196A52] rounded-sm"
+          aria-label="InfoWorld Technologies Home"
+          className="whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#196A52] rounded-sm"
         >
-          InfoWorldtech
+          <BrandLogo compact />
         </a>
 
         {/* Zone 2: 5 clean single-line text navigation links */}
